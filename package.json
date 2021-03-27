@@ -1,0 +1,22 @@
+{
+  "name": "devdash",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Rob",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.12",
+    "@babel/preset-react": "^7.12.13",
+    "@babel/register": "^7.13.8",
+    "blessed": "^0.1.81",
+    "react": "^17.0.2",
+    "react-blessed": "^0.7.2"
+  }
+}
