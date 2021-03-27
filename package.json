@@ -16,6 +16,9 @@
     "@babel/preset-react": "^7.12.13",
     "@babel/register": "^7.13.8",
     "blessed": "^0.1.81",
+    "eslint": "^7.23.0",
+    "eslint-plugin-react": "^7.23.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "react": "^17.0.2",
     "react-blessed": "^0.7.2"
   }
