@@ -1,39 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import blessed from 'blessed';
 import { render } from 'react-blessed';
+import Today from './components/Today';
 
 const App = () => {
-  const [count, setCount] = useState(0);
-  const timer = useRef();
-
-  useEffect(() => {
-    timer.current = setTimeout(() => setCount(count + 1), 1000);
-    return () => clearTimeout(timer.current);
-  }, [count]);
-
-  const dateTime = new Date().toLocaleString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: true,
-  });
-
-  return (
-    <box
-      top="center"
-      left="center"
-      width="50%"
-      height="50%"
-      border={{ type: 'line' }}
-      style={{ border: { fg: 'blue' } }}
-    >
-      {`Today is ${dateTime}
-      
-      Counter is ${count}`}
-    </box>
-  );
+  return <Today updateInterval={1000} />;
 };
 
 const screen = blessed.screen({
@@ -44,4 +15,4 @@ const screen = blessed.screen({
 
 screen.key(['escape', 'q', 'C-c'], () => process.exit(0));
 
-const component = render(<App />, screen);
+render(<App />, screen);

@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "Rob",
@@ -15,11 +16,14 @@
     "@babel/preset-env": "^7.13.12",
     "@babel/preset-react": "^7.12.13",
     "@babel/register": "^7.13.8",
+    "@use-it/interval": "^1.0.0",
     "blessed": "^0.1.81",
     "eslint": "^7.23.0",
     "eslint-plugin-react": "^7.23.1",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "figlet": "^1.5.0",
     "react": "^17.0.2",
-    "react-blessed": "^0.7.2"
+    "react-blessed": "^0.7.2",
+    "weather-js": "^2.0.0"
   }
 }
