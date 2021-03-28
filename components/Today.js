@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import figlet from 'figlet';
 import useInterval from '@use-it/interval';
 import weather from 'weather-js';
 import util from 'util';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 
 const findWeather = util.promisify(weather.find);
 
@@ -20,6 +21,38 @@ const FONTS = [
   'Small Script',
   'Small Shadow',
 ];
+
+const useRequest = (promise, options, interval = null) => {
+  const [state, setState] = useState({
+    status: 'loading',
+    error: null,
+    data: null,
+  });
+
+  const request = useCallback(
+    async (options) => {
+      setState({ status: 'loading', error: null, data: null });
+      let data;
+      try {
+        data = await promise(options);
+        setState({ status: 'complete', error: null, data });
+      } catch (error) {
+        setState({ status: 'error', error, data: null });
+      }
+    },
+    [promise]
+  );
+
+  useDeepCompareEffect(() => {
+    request(options);
+  }, [options, request]);
+
+  useInterval(() => {
+    request(options);
+  }, interval);
+
+  return state;
+};
 
 const formatWeather = ([results]) => {
   const { location, current, forecast } = results;
@@ -39,30 +72,8 @@ export default function Today({
 }) {
   const [fontIndex, setFontIndex] = useState(0);
   const [now, setNow] = useState(new Date());
-  const [weather, setWeather] = useState({
-    status: 'loading',
-    error: null,
-    data: null,
-  });
-
-  const fetchWeather = useCallback(async () => {
-    setWeather({ status: 'loading', error: null, data: null });
-    let data;
-    try {
-      data = await findWeather({ search, degreeType });
-      setWeather({ status: 'complete', error: null, data });
-    } catch (error) {
-      setWeather({ status: 'error', error, data: null });
-    }
-  }, [search, degreeType]);
-
-  useEffect(() => {
-    fetchWeather();
-  }, [fetchWeather]);
-
-  useInterval(() => {
-    fetchWeather();
-  }, updateInterval);
+  const options = useMemo(() => ({ search, degreeType }), [search, degreeType]);
+  const weather = useRequest(findWeather, options, updateInterval);
 
   useInterval(() => {
     setNow(new Date());
