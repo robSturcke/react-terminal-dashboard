@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
+import Box from './Box';
 import figlet from 'figlet';
 import useInterval from '@use-it/interval';
 import weather from 'weather-js';
@@ -73,7 +74,12 @@ export default function Today({
   updateInterval = 900000,
   search = 'New York City, NY',
   degreeType = 'F',
+  top,
+  left,
+  width,
+  height,
 }) {
+  const boxProps = { top, left, width, height };
   const [fontIndex, setFontIndex] = useState(0);
   const [now, setNow] = useState(new Date());
   const options = useMemo(() => ({ search, degreeType }), [search, degreeType]);
@@ -100,16 +106,7 @@ export default function Today({
   );
 
   return (
-    <box
-      top="center"
-      left="center"
-      width="65%"
-      height="65%"
-      border={{ type: 'line' }}
-      style={{
-        border: { fg: 'blue' },
-      }}
-    >
+    <Box label="Today" {...boxProps}>
       <text right={1}>{chalk.blue(date)}</text>
       <text top="center" left="center">
         {gradient.atlas.multiline(time)}
@@ -121,6 +118,6 @@ export default function Today({
           ? `Error: ${weather.error}`
           : formatWeather(weather.data)}
       </text>
-    </box>
+    </Box>
   );
 }
