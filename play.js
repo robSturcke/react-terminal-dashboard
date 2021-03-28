@@ -1,6 +1,12 @@
 const weather = require('weather-js');
+const util = require('util');
 
-weather.find({ search: 'Nashville, TN', degreeType: 'F' }, (error, result) => {
-  if (error) console.log(error);
-  console.log(JSON.stringify(result, null, 2));
-});
+const findWeather = util.promisify(weather.find);
+
+findWeather({ search: 'New York City, NY', degreeType: 'F' })
+  .then((result) => {
+    console.log(JSON.stringify(result, null, 2));
+  })
+  .catch((error) => {
+    console.error(error);
+  });
